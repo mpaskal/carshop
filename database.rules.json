@@ -2,7 +2,7 @@
   "rules": {
     ".read": false,
     ".write": false,
-    "groceries": {
+    "cars": {
       "$uid": {
         ".read": "auth != null && auth.uid == $uid",
         ".write": "auth != null && auth.uid == $uid"
@@ -11,12 +11,6 @@
     "todos": {
       ".read": true,
       ".write": true
-    },
-    "cars": {
-      "$uid": {
-        ".read": "auth != null && auth.uid == $uid",
-        ".write": "auth != null && auth.uid == $uid"
-      }
     }
   }
 }

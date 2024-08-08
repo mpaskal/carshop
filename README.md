@@ -10,6 +10,12 @@ npx http-server
 
 ```
 
+### Team Members:
+
+- Marina Paskal
+- Ganna Sokolik
+- Abhijay Nair
+
 The index.html contains 2 login-screen classes to match the 2 buttons.
 
 ```

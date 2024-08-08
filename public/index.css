@@ -36,8 +36,17 @@
   min-height: 75vh;
 }
 
-/* Google SignIn  */
+/* Modal add item */
+.sheet-modal.my-sheet {
+  height: 35vh;
+}
 
+#addItem {
+  width: 100%;
+  height: 100%;
+}
+
+/* Google SignIn  */
 .googleSignIn {
   background-color: #4285f4;
   color: white;
