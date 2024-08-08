@@ -5,9 +5,18 @@ import "https://cdnjs.cloudflare.com/ajax/libs/firebase/7.16.1/firebase-auth.min
 
 import config from "./firebase.js";
 import app from "./F7App.js";
+
+// Initialize Firebase
+firebase.initializeApp(config);
+
+// Make Firebase globally available
+window.firebase = firebase;
+
+console.log("Firebase initialized:", firebase.apps.length > 0);
+
+// Import carsshop.js after Firebase initialization
 import "./carsshop.js";
 
-firebase.initializeApp(config);
 const $$ = Dom7;
 
 firebase.auth().onAuthStateChanged((user) => {
