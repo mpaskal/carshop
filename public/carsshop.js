@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
       const oData = app.form.convertToData("#addItem");
       console.log("Form Data: ", oData);
 
-      // Ensure all required fields are present and in the correct format
       const carData = {
         item: oData.item || "",
         store: oData.store || "",
@@ -29,7 +28,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         .then(() => {
           console.log("Car added successfully!");
           app.sheet.close(".my-sheet", true);
-          loadCarList(sUser); // Reload the car list after adding
+          loadCarList(sUser);
         })
         .catch((error) => {
           console.error("Error adding car: ", error.code, error.message);
@@ -39,18 +38,15 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
   });
 
-  // Load car list when tab2 is shown
   $$("#tab2").on("tab:show", () => {
     if (firebase.auth().currentUser) {
       loadCarList(firebase.auth().currentUser.uid);
     } else {
       console.log("User not authenticated");
-      // Optionally, redirect to login or show a message
     }
   });
 });
 
-// Function to load and display the car list
 function loadCarList(userId) {
   firebase
     .database()
@@ -59,18 +55,17 @@ function loadCarList(userId) {
       const oItems = snapshot.val();
       const aKeys = oItems ? Object.keys(oItems) : [];
       console.log("Cars from Firebase:", oItems);
-      $$("#carsList").html(""); // Make sure this ID matches your HTML
+      $$("#carsList").html("");
       for (let n = 0; n < aKeys.length; n++) {
-        let sCard = `
+        const car = oItems[aKeys[n]];
+        const sCard = `
         <div class="card">
           <div class="card-content card-content-padding">
-            <div>Model: ${oItems[aKeys[n]].item}</div>
-            <div>Manufacturer: ${oItems[aKeys[n]].store}</div>
-            <div>Year: ${oItems[aKeys[n]].year}</div>
-            <div>Price: $${oItems[aKeys[n]].price}</div>
-            <div><img src="${oItems[aKeys[n]].imageUrl}" alt="${
-          oItems[aKeys[n]].item
-        }" style="width:100%"></div>
+            <div>Model: ${car.item}</div>
+            <div>Manufacturer: ${car.store}</div>
+            <div>Year: ${car.year}</div>
+            <div>Price: $${car.price}</div>
+            <div><img src="${car.imageUrl}" alt="${car.item}" style="width:100%"></div>
           </div>
         </div>
       `;

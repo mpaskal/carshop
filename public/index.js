@@ -14,9 +14,6 @@ window.firebase = firebase;
 
 console.log("Firebase initialized:", firebase.apps.length > 0);
 
-// Import carsshop.js after Firebase initialization
-import "./carsshop.js";
-
 const $$ = Dom7;
 
 firebase.auth().onAuthStateChanged((user) => {
@@ -32,35 +29,30 @@ firebase.auth().onAuthStateChanged((user) => {
 
 $$("#loginForm").on("submit", (evt) => {
   evt.preventDefault();
-  var formData = app.form.convertToData("#loginForm");
+  const formData = app.form.convertToData("#loginForm");
   firebase
     .auth()
     .signInWithEmailAndPassword(formData.username, formData.password)
     .then(() => {
-      // could save extra info in a profile here I think.
       app.loginScreen.close(".loginYes", true);
     })
-    .catch(function (error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
       $$("#signInError").html(errorCode + " error " + errorMessage);
       console.log(errorCode + " error " + errorMessage);
-      // ...
     });
-  console.log("Login form data: ", formData);
 });
 
 $$("#signUpForm").on("submit", (evt) => {
   evt.preventDefault();
-  var formData = app.form.convertToData("#signUpForm");
+  const formData = app.form.convertToData("#signUpForm");
   firebase
     .auth()
     .createUserWithEmailAndPassword(formData.username, formData.password)
     .then((userCredential) => {
-      // Set display name
       return userCredential.user.updateProfile({
-        displayName: formData.username.split("@")[0], // Use part before @ as display name
+        displayName: formData.username.split("@")[0],
       });
     })
     .then(() => {
@@ -68,8 +60,8 @@ $$("#signUpForm").on("submit", (evt) => {
       app.loginScreen.close(".signupYes", true);
     })
     .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
+      const errorCode = error.code;
+      const errorMessage = error.message;
       $$("#signUpError").html(errorCode + " error " + errorMessage);
       console.log(errorCode + " error " + errorMessage);
     });
@@ -79,36 +71,25 @@ $$("#logout").on("click", () => {
   firebase
     .auth()
     .signOut()
-    .then(() => {
-      // Sign-out successful.
-    })
-    .catch(() => {
-      // An error happened.
+    .catch((error) => {
+      console.error("Sign-out error: ", error);
     });
 });
 
-// Google Sign-In function
 function googleSignIn() {
-  var provider = new firebase.auth.GoogleAuthProvider();
+  const provider = new firebase.auth.GoogleAuthProvider();
   firebase
     .auth()
     .signInWithPopup(provider)
-    .then(function (result) {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      var token = result.credential.accessToken;
-      // The signed-in user info.
-      var user = result.user;
-      // You might want to close the login screen here
+    .then((result) => {
       app.loginScreen.close(".loginYes", true);
       app.loginScreen.close(".signupYes", true);
     })
-    .catch(function (error) {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
       if (errorCode === "auth/popup-closed-by-user") {
         console.log("Sign-in popup closed by user.");
-        // You might want to show a message to the user
         $$("#signInError").html(
           "Sign-in cancelled. Please try again if you want to sign in."
         );
@@ -119,5 +100,7 @@ function googleSignIn() {
     });
 }
 
-// Add event listeners for Google Sign-In buttons
 $$(".googleSignIn").on("click", googleSignIn);
+
+// Import carsshop.js after Firebase initialization
+import "./carsshop.js";
