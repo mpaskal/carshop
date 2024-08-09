@@ -1,50 +1,67 @@
+import "https://cdnjs.cloudflare.com/ajax/libs/framework7/5.7.10/js/framework7.bundle.js";
+import "https://cdnjs.cloudflare.com/ajax/libs/firebase/7.16.0/firebase-app.min.js";
+import "https://cdnjs.cloudflare.com/ajax/libs/firebase/7.16.0/firebase-database.min.js";
+import "https://cdnjs.cloudflare.com/ajax/libs/firebase/7.16.1/firebase-auth.min.js";
 import app from "./F7App.js";
 
 const $$ = Dom7;
 
-document.addEventListener("DOMContentLoaded", (event) => {
-  $$(".my-sheet").on("submit", (e) => {
-    e.preventDefault();
-    console.log("Current user:", firebase.auth().currentUser);
-    if (firebase.auth().currentUser) {
-      const oData = app.form.convertToData("#addItem");
-      console.log("Form Data: ", oData);
+$$("#tab2").on("tab:show", () => {
+  //put in firebase ref here
+  const sUser = firebase.auth().currentUser.uid;
+  firebase
+    .database()
+    .ref("cars/" + sUser)
+    .on("value", (snapshot) => {
+      const oItems = snapshot.val();
+      const aKeys = Object.keys(oItems);
+      $$("#carsList").html("");
+      for (let n = 0; n < aKeys.length; n++) {
+        let sCard = `
+            <div class="card">
+            <div class="card-content card-content-padding">${
+              oItems[aKeys[n]].item
+            }</div>
+            </div>
+            `;
+        $$("#carsList").append(sCard);
+      }
+    });
+});
 
-      const carData = {
-        item: oData.item || "",
-        store: oData.store || "",
-        year: parseInt(oData.year) || 0,
-        price: parseFloat(oData.price) || 0,
-        imageUrl: oData.imageUrl || "https://example.com/placeholder.jpg",
-      };
+$$(".my-sheet").on("submit", (e) => {
+  e.preventDefault();
+  console.log("Current user:", firebase.auth().currentUser);
+  if (firebase.auth().currentUser) {
+    const oData = app.form.convertToData("#addItem");
+    console.log("Form Data: ", oData);
 
-      const sUser = firebase.auth().currentUser.uid;
-      console.log("User ID: ", sUser);
-      const sId = new Date().toISOString().replace(/[.]/g, "_");
-      firebase
-        .database()
-        .ref(`cars/${sUser}/${sId}`)
-        .set(carData)
-        .then(() => {
-          console.log("Car added successfully!");
-          app.sheet.close(".my-sheet", true);
-          loadCarList(sUser);
-        })
-        .catch((error) => {
-          console.error("Error adding car: ", error.code, error.message);
-        });
-    } else {
-      console.log("User not authenticated");
-    }
-  });
+    const carData = {
+      item: oData.item || "",
+      store: oData.store || "",
+      year: parseInt(oData.year) || 0,
+      price: parseFloat(oData.price) || 0,
+      imageUrl: oData.imageUrl || "https://example.com/placeholder.jpg",
+    };
 
-  $$("#tab2").on("tab:show", () => {
-    if (firebase.auth().currentUser) {
-      loadCarList(firebase.auth().currentUser.uid);
-    } else {
-      console.log("User not authenticated");
-    }
-  });
+    const sUser = firebase.auth().currentUser.uid;
+    console.log("User ID: ", sUser);
+    const sId = new Date().toISOString().replace(/[.]/g, "_");
+    firebase
+      .database()
+      .ref(`cars/${sUser}/${sId}`)
+      .set(carData)
+      .then(() => {
+        console.log("Car added successfully!");
+        app.sheet.close(".my-sheet", true);
+        loadCarList(sUser);
+      })
+      .catch((error) => {
+        console.error("Error adding car: ", error.code, error.message);
+      });
+  } else {
+    console.log("User not authenticated");
+  }
 });
 
 function loadCarList(userId) {

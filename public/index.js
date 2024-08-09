@@ -2,22 +2,14 @@ import "https://cdnjs.cloudflare.com/ajax/libs/framework7/5.7.10/js/framework7.b
 import "https://cdnjs.cloudflare.com/ajax/libs/firebase/7.16.0/firebase-app.min.js";
 import "https://cdnjs.cloudflare.com/ajax/libs/firebase/7.16.0/firebase-database.min.js";
 import "https://cdnjs.cloudflare.com/ajax/libs/firebase/7.16.1/firebase-auth.min.js";
-
 import config from "./firebase.js";
 import app from "./F7App.js";
+import "./carsshop.js";
 
-// Initialize Firebase
 firebase.initializeApp(config);
-
-// Make Firebase globally available
-window.firebase = firebase;
-
-console.log("Firebase initialized:", firebase.apps.length > 0);
-
 const $$ = Dom7;
 
 firebase.auth().onAuthStateChanged((user) => {
-  console.log("User: ", user);
   if (user) {
     console.log("User is signed in with UID:", user.uid);
     app.tab.show("#tab2", true);
@@ -29,41 +21,42 @@ firebase.auth().onAuthStateChanged((user) => {
 
 $$("#loginForm").on("submit", (evt) => {
   evt.preventDefault();
-  const formData = app.form.convertToData("#loginForm");
+  var formData = app.form.convertToData("#loginForm");
   firebase
     .auth()
     .signInWithEmailAndPassword(formData.username, formData.password)
     .then(() => {
+      // could save extra info in a profile here I think.
       app.loginScreen.close(".loginYes", true);
     })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
+    .catch(function (error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
       $$("#signInError").html(errorCode + " error " + errorMessage);
       console.log(errorCode + " error " + errorMessage);
+      // ...
     });
 });
 
 $$("#signUpForm").on("submit", (evt) => {
   evt.preventDefault();
-  const formData = app.form.convertToData("#signUpForm");
+  var formData = app.form.convertToData("#signUpForm");
+  //alert("clicked Sign Up: " + JSON.stringify(formData));
   firebase
     .auth()
     .createUserWithEmailAndPassword(formData.username, formData.password)
-    .then((userCredential) => {
-      return userCredential.user.updateProfile({
-        displayName: formData.username.split("@")[0],
-      });
-    })
     .then(() => {
-      console.log("User profile updated");
+      // could save extra info in a profile here I think.
       app.loginScreen.close(".signupYes", true);
     })
     .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
       $$("#signUpError").html(errorCode + " error " + errorMessage);
       console.log(errorCode + " error " + errorMessage);
+      // ...
     });
 });
 
@@ -71,8 +64,11 @@ $$("#logout").on("click", () => {
   firebase
     .auth()
     .signOut()
-    .catch((error) => {
-      console.error("Sign-out error: ", error);
+    .then(() => {
+      // Sign-out successful.
+    })
+    .catch(() => {
+      // An error happened.
     });
 });
 
@@ -101,6 +97,3 @@ function googleSignIn() {
 }
 
 $$(".googleSignIn").on("click", googleSignIn);
-
-// Import carsshop.js after Firebase initialization
-import "./carsshop.js";
