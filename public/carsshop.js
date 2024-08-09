@@ -48,52 +48,50 @@ $$(".my-sheet").on("submit", (e) => {
 });
 
 export function loadCarList(userId) {
-  function loadCarList(userId) {
-    console.log("Loading car list for user:", userId);
-    firebase
-      .database()
-      .ref("cars/" + userId)
-      .once("value")
-      .then((snapshot) => {
-        const oItems = snapshot.val();
-        console.log("Cars data received:", oItems);
-        const aKeys = oItems ? Object.keys(oItems) : [];
-        console.log("Number of cars:", aKeys.length);
-        $$("#carList").html('<div class="row"></div>');
-        for (let n = 0; n < aKeys.length; n++) {
-          const car = oItems[aKeys[n]];
-          const carId = aKeys[n];
-          console.log("Rendering car:", car);
-          const isPurchased = car.datePurchased
-            ? 'style="text-decoration: line-through;"'
-            : "";
-          const sCard = `
-          <div class="col-33 tablet-50 mobile-100">
-            <div class="card" ${isPurchased} data-car-id="${carId}">
-              <div class="card-content card-content-padding">
-                <img src="${car.imageUrl}" alt="${car.item}" class="card-image">
-                <div class="card-details">
-                  <div>Model: ${car.item}</div>
-                  <div>Manufacturer: ${car.store}</div>
-                  <div>Year: ${car.year}</div>
-                  <div>Price: $${car.price}</div>
-                </div>
-                <div class="card-buttons">
-                  <button class="button button-fill color-green bought-button">I bought this</button>
-                  <button class="button button-fill color-red delete-button">I don't need this</button>
-                </div>
+  console.log("Loading car list for user:", userId);
+  firebase
+    .database()
+    .ref("cars/" + userId)
+    .once("value")
+    .then((snapshot) => {
+      const oItems = snapshot.val();
+      console.log("Cars data received:", oItems);
+      const aKeys = oItems ? Object.keys(oItems) : [];
+      console.log("Number of cars:", aKeys.length);
+      $$("#carList").html('<div class="row"></div>');
+      for (let n = 0; n < aKeys.length; n++) {
+        const car = oItems[aKeys[n]];
+        const carId = aKeys[n];
+        console.log("Rendering car:", car);
+        const isPurchased = car.datePurchased
+          ? 'style="text-decoration: line-through;"'
+          : "";
+        const sCard = `
+        <div class="col-33 tablet-50 mobile-100">
+          <div class="card" ${isPurchased} data-car-id="${carId}">
+            <div class="card-content card-content-padding">
+              <img src="${car.imageUrl}" alt="${car.item}" class="card-image">
+              <div class="card-details">
+                <div>Model: ${car.item}</div>
+                <div>Manufacturer: ${car.store}</div>
+                <div>Year: ${car.year}</div>
+                <div>Price: $${car.price}</div>
+              </div>
+              <div class="card-buttons">
+                <button class="button button-fill color-green bought-button">I bought this</button>
+                <button class="button button-fill color-red delete-button">I don't need this</button>
               </div>
             </div>
           </div>
-        `;
-          $$("#carList .row").append(sCard);
-        }
-        console.log("Finished rendering cars");
-      })
-      .catch((error) => {
-        console.error("Error loading cars:", error);
-      });
-  }
+        </div>
+      `;
+        $$("#carList .row").append(sCard);
+      }
+      console.log("Finished rendering cars");
+    })
+    .catch((error) => {
+      console.error("Error loading cars:", error);
+    });
 }
 
 $$("#carList").on("click", ".bought-button", function () {
