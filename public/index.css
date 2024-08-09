@@ -33,7 +33,7 @@ html {
 #welcomeContent {
   font-size: 1.3em;
   line-height: 2;
-  margin: 3em 2em;
+  margin: 3em;
 }
 
 .special-word {
@@ -43,7 +43,7 @@ html {
 .login-buttons {
   display: flex;
   font-weight: bold;
-  justify-content: center;
+  justify-content: end;
   gap: 2em;
   margin-top: 2em;
 }
