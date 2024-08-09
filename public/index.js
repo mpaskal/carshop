@@ -2,9 +2,11 @@ import "https://cdnjs.cloudflare.com/ajax/libs/framework7/5.7.10/js/framework7.b
 import "https://cdnjs.cloudflare.com/ajax/libs/firebase/7.16.0/firebase-app.min.js";
 import "https://cdnjs.cloudflare.com/ajax/libs/firebase/7.16.0/firebase-database.min.js";
 import "https://cdnjs.cloudflare.com/ajax/libs/firebase/7.16.1/firebase-auth.min.js";
+
 import config from "./firebase.js";
 import app from "./F7App.js";
 import "./carsshop.js";
+//import { loadCarList } from "./carsshop.js";
 
 firebase.initializeApp(config);
 const $$ = Dom7;
@@ -13,6 +15,7 @@ firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     console.log("User is signed in with UID:", user.uid);
     app.tab.show("#tab2", true);
+    loadCarList(user.uid);
   } else {
     console.log("User is signed out");
     app.tab.show("#tab1", true);
