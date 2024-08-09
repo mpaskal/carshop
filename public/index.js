@@ -5,7 +5,6 @@ import "https://cdnjs.cloudflare.com/ajax/libs/firebase/7.16.1/firebase-auth.min
 
 import config from "./firebase.js";
 import app from "./F7App.js";
-import "./carsshop.js";
 import { loadCarList } from "./carsshop.js";
 
 firebase.initializeApp(config);
@@ -16,9 +15,13 @@ firebase.auth().onAuthStateChanged((user) => {
     console.log("User is signed in with UID:", user.uid);
     app.tab.show("#tab2", true);
     loadCarList(user.uid);
+    $$("#welcomeContent").hide();
+    $$("#logout").show();
   } else {
     console.log("User is signed out");
     app.tab.show("#tab1", true);
+    $$("#welcomeContent").show();
+    $$("#logout").hide();
   }
 });
 
@@ -29,37 +32,30 @@ $$("#loginForm").on("submit", (evt) => {
     .auth()
     .signInWithEmailAndPassword(formData.username, formData.password)
     .then(() => {
-      // could save extra info in a profile here I think.
       app.loginScreen.close(".loginYes", true);
     })
     .catch(function (error) {
-      // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
       $$("#signInError").html(errorCode + " error " + errorMessage);
       console.log(errorCode + " error " + errorMessage);
-      // ...
     });
 });
 
 $$("#signUpForm").on("submit", (evt) => {
   evt.preventDefault();
   var formData = app.form.convertToData("#signUpForm");
-  //alert("clicked Sign Up: " + JSON.stringify(formData));
   firebase
     .auth()
     .createUserWithEmailAndPassword(formData.username, formData.password)
     .then(() => {
-      // could save extra info in a profile here I think.
       app.loginScreen.close(".signupYes", true);
     })
     .catch((error) => {
-      // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
       $$("#signUpError").html(errorCode + " error " + errorMessage);
       console.log(errorCode + " error " + errorMessage);
-      // ...
     });
 });
 

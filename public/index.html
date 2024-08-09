@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <!--
+        <!--
   Customize this policy to fit your own app's needs. For more guidance, see:
   https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
   Some notes:
@@ -27,7 +27,7 @@
     <meta name="theme-color" content="#2196f3" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
-    <title>Cars Store</title>
+    <title>Car Store</title>
     <link rel="apple-touch-icon" href="img/f7-icon-square.png" />
     <link rel="icon" href="img/f7-icon.png" />
     <link rel="stylesheet" href="./index.css" />
@@ -35,23 +35,40 @@
 
   <body>
     <div id="app">
-      <!-- Status bar overlay for fullscreen mode-->
       <div class="statusbar"></div>
-      <!-- Main view -->
       <div class="view view-main view-init ios-edges" data-url="/">
         <div class="page">
           <nav class="navbar">
             <div class="navbar-inner">
-              <h1 class="title sliding">Cars Store</h1>
+              <h1 class="title sliding">Car Store</h1>
             </div>
           </nav>
           <main class="page-content">
-            <!-- content goes there -->
             <div class="tabs">
               <div id="tab1" class="block tab tab-active">
-                <div class="row">
-                  &nbsp;
-                  <p id="loginSignin" class="segmented segmented-raised">
+                <div id="welcomeContent">
+                  <p>
+                    Welcome to the Car Shop Extraordinaire, where automotive
+                    dreams meet reality, and sometimes, surreality. Our
+                    collection ranges from the epitome of luxury to vehicles
+                    that make you question the very laws of physics (and good
+                    taste).
+                  </p>
+                  <p>
+                    Whether you're in the market for a car that turns more heads
+                    than a hockey match or one that makes people scratch their
+                    heads in bewilderment, we've got you covered. From sleek
+                    sports cars that can outrun our global crisis to
+                    eco-friendly vehicles so quiet they startle cats, our
+                    inventory is as diverse as our excuses.
+                  </p>
+                  <p>
+                    Remember, here at Car Shop Extraordinaire, we don't just
+                    sell cars - we sell portals to worlds you drive.
+                  </p>
+                </div>
+                <div class="login-buttons">
+                   <p id="loginSignin" class="segmented segmented-raised">
                     <a
                       href="#"
                       class="button login-screen-open"
@@ -66,25 +83,23 @@
                     >
                   </p>
                 </div>
-                <p>Manage your car inventory with this application.</p>
               </div>
               <div id="tab2" class="block tab">
                 <div class="row">
-                  &nbsp;<button id="logout" class="button button-raised">
+                  <button id="logout" class="button button-raised">
                     Logout
                   </button>
                 </div>
-                <!-- Green FAB -->
                 <div class="fab fab-right-bottom color-green">
                   <a href="#" data-sheet=".my-sheet" class="sheet-open">
                     <i class="icon f7-icons">Add</i>
                   </a>
                 </div>
-                <div id="carList">This is for the display of the car list</div>
+                <div id="carList"></div>
               </div>
             </div>
           </main>
-          <div class="login-screen loginYes">
+           <div class="login-screen loginYes">
             <div class="view">
               <div class="page">
                 <div class="page-content login-screen-content">
@@ -334,11 +349,12 @@
                 </li>
               </ul>
             </div>
-          </form>
+ 
+          <!-- Login and signup screens (keep as they were) -->
+          <!-- Car drawer (keep as it was) -->
         </div>
       </div>
     </div>
-    <script type="module" src="./carsshop.js"></script>
     <script type="module" src="./index.js"></script>
   </body>
 </html>
