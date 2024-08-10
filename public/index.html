@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-        <!--
+    <!--
   Customize this policy to fit your own app's needs. For more guidance, see:
   https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
   Some notes:
@@ -46,27 +46,31 @@
           <main class="page-content">
             <div class="tabs">
               <div id="tab1" class="block tab tab-active">
-                   <div class="login-buttons">
-                    <a
-                      href="#"
-                      class="button login-screen-open"
-                      data-login-screen=".signupYes"
-                      >Sign Up</a
-                    >
-                    <a
-                      href="#"
-                      class="button button-active login-screen-open"
-                      data-login-screen=".loginYes"
-                      >Sign In</a
-                    >
+                <div class="login-buttons">
+                  <a
+                    href="#"
+                    class="button login-screen-open"
+                    data-login-screen=".signupYes"
+                    >Sign Up</a
+                  >
+                  <a
+                    href="#"
+                    class="button button-active login-screen-open"
+                    data-login-screen=".loginYes"
+                    >Sign In</a
+                  >
                 </div>
                 <div id="welcomeContent">
                   <p>
-                    Welcome to the car shop <span class="special-word">"Exceptionally Lucky (XL)"</span>, where automotive
-                    dreams meet reality, and sometimes, su<span class="special-word">pe</span>r<span class="special-word">-</span>reality. Our
-                    collection ranges from the epitome of luxury to vehicles
-                    that make you question the very laws of physics (and good
-                    taste).
+                    Welcome to the car shop
+                    <span class="special-word">"Exceptionally Lucky (XL)"</span
+                    >, where automotive dreams meet reality, and sometimes,
+                    su<span class="special-word">pe</span>r<span
+                      class="special-word"
+                      >-</span
+                    >reality. Our collection ranges from the epitome of luxury
+                    to vehicles that make you question the very laws of physics
+                    (and good taste).
                   </p>
                   <p>
                     Whether you're in the market for a car that turns more heads
@@ -89,7 +93,7 @@
                   </button>
                 </div>
                 <div id="carList"></div>
-                 <div class="fab fab-right-bottom color-green">
+                <div class="fab fab-right-bottom color-green">
                   <a href="#" data-sheet=".my-sheet" class="sheet-open">
                     <i class="icon f7-icons">Add</i>
                   </a>
@@ -97,7 +101,7 @@
               </div>
             </div>
           </main>
-           <div class="login-screen loginYes">
+          <div class="login-screen loginYes">
             <div class="view">
               <div class="page">
                 <div class="page-content login-screen-content">
@@ -244,7 +248,9 @@
                 <div class="left">Add a Car</div>
                 <p id="closeSave" class="segmented segmented-raised">
                   <a href="#" class="button sheet-close">Close</a>
-                  <button type="submit" class="button button-active">Save</button>
+                  <button type="submit" class="button button-active">
+                    Save
+                  </button>
                 </p>
               </div>
             </div>
@@ -253,101 +259,79 @@
               style="overflow-y: auto; max-height: calc(90vh - 44px)"
             >
               <ul>
-                <li>
-                  <div class="item-content item-input">
-                    <div class="item-inner">
-                      <label for="item" class="item-title item-label"
-                        >Car Model:</label
-                      >
-                      <div class="item-input-wrap">
-                        <input
-                          id="item"
-                          type="text"
-                          name="item"
-                          placeholder="Model required"
-                          class=""
-                        />
-                      </div>
+                <li class="item-content item-input">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Car Model:</div>
+                    <div class="item-input-wrap">
+                      <input
+                        id="item"
+                        type="text"
+                        name="item"
+                        placeholder="Model required"
+                      />
+                      <div class="item-input-error-message"></div>
                     </div>
                   </div>
                 </li>
-                <li>
-                  <div class="item-content item-input">
-                    <div class="item-inner">
-                      <label for="store" class="item-title item-label"
-                        >Manufacturer:</label
-                      >
-                      <div class="item-input-wrap">
-                        <input
-                          id="store"
-                          type="text"
-                          name="store"
-                          placeholder="Manufacturer required"
-                          class=""
-                        />
-                      </div>
+                <li class="item-content item-input">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Manufacturer:</div>
+                    <div class="item-input-wrap">
+                      <input
+                        id="store"
+                        type="text"
+                        name="store"
+                        placeholder="Manufacturer required"
+                      />
+                      <div class="item-input-error-message"></div>
                     </div>
                   </div>
                 </li>
-                <li>
-                  <div class="item-content item-input">
-                    <div class="item-inner">
-                      <label for="year" class="item-title item-label"
-                        >Year:</label
-                      >
-                      <div class="item-input-wrap">
-                        <input
-                          id="year"
-                          type="number"
-                          name="year"
-                          placeholder="Year required"
-                          class=""
-                        />
-                      </div>
+                <li class="item-content item-input">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Year:</div>
+                    <div class="item-input-wrap">
+                      <input
+                        id="year"
+                        type="number"
+                        name="year"
+                        placeholder="Year required"
+                      />
+                      <div class="item-input-error-message"></div>
                     </div>
                   </div>
                 </li>
-                <li>
-                  <div class="item-content item-input">
-                    <div class="item-inner">
-                      <label for="price" class="item-title item-label"
-                        >Price:</label
-                      >
-                      <div class="item-input-wrap">
-                        <input
-                          id="price"
-                          type="number"
-                          name="price"
-                          placeholder="Price required"
-                          class=""
-                        />
-                      </div>
+                <li class="item-content item-input">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Price:</div>
+                    <div class="item-input-wrap">
+                      <input
+                        id="price"
+                        type="number"
+                        name="price"
+                        placeholder="Price required"
+                      />
+                      <div class="item-input-error-message"></div>
                     </div>
                   </div>
                 </li>
-                <li>
-                  <div class="item-content item-input">
-                    <div class="item-inner">
-                      <label for="imageUrl" class="item-title item-label"
-                        >Image URL:</label
-                      >
-                      <div class="item-input-wrap">
-                        <input
-                          id="imageUrl"
-                          type="url"
-                          name="imageUrl"
-                          placeholder="Image URL"
-                          class=""
-                        />
-                      </div>
+                <li class="item-content item-input">
+                  <div class="item-inner">
+                    <div class="item-title item-label">Image URL:</div>
+                    <div class="item-input-wrap">
+                      <input
+                        id="imageUrl"
+                        type="url"
+                        name="imageUrl"
+                        placeholder="Image URL"
+                      />
+                      <div class="item-input-error-message"></div>
                     </div>
                   </div>
                 </li>
               </ul>
             </div>
- 
-          <!-- Login and signup screens (keep as they were) -->
-          <!-- Car drawer (keep as it was) -->
+          </form>
         </div>
       </div>
     </div>

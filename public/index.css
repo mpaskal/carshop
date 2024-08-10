@@ -137,3 +137,14 @@ html {
 .fab a i {
   margin: 0;
 }
+
+.item-input-error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+  display: none;
+}
+
+.item-input-with-error-message .item-input-wrap::after {
+  background: red;
+}

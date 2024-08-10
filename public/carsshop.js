@@ -119,30 +119,63 @@ function validateUrl(url) {
   return !!pattern.test(url);
 }
 
+function displayFieldError(fieldName, errorMessage) {
+  const errorElement = $$(`#addItem [name="${fieldName}"]`).siblings(
+    ".item-input-error-message"
+  );
+  errorElement.text(errorMessage).css("display", "block");
+  $$(`#addItem [name="${fieldName}"]`)
+    .parents(".item-content")
+    .addClass("item-input-with-error-message");
+}
+
+function clearFieldErrors() {
+  $$("#addItem .item-input-error-message").text("").css("display", "none");
+  $$("#addItem .item-input-with-error-message").removeClass(
+    "item-input-with-error-message"
+  );
+}
+
 $$(".my-sheet").on("submit", (e) => {
   e.preventDefault();
   if (firebase.auth().currentUser) {
     const oData = app.form.convertToData("#addItem");
     console.log("Form Data: ", oData);
 
-    const errors = [];
-    if (!oData.item) errors.push("Car model is required");
-    if (!oData.store) errors.push("Manufacturer is required");
-    if (!oData.year) errors.push("Year is required");
-    else if (isNaN(oData.year) || Number(oData.year) <= 0)
-      errors.push("Year must be a positive number");
-    if (!oData.price) errors.push("Price is required");
-    else if (isNaN(oData.price) || Number(oData.price) <= 0)
-      errors.push("Price must be a positive number");
-    if (oData.imageUrl && !validateUrl(oData.imageUrl))
-      errors.push("Invalid image URL format");
+    clearFieldErrors();
 
-    if (errors.length > 0) {
-      $$("#addItemError").html(errors.join("<br>")).css("color", "red");
-      return;
+    let hasErrors = false;
+
+    if (!oData.item) {
+      displayFieldError("item", "Car model is required");
+      hasErrors = true;
+    }
+    if (!oData.store) {
+      displayFieldError("store", "Manufacturer is required");
+      hasErrors = true;
+    }
+    if (!oData.year) {
+      displayFieldError("year", "Year is required");
+      hasErrors = true;
+    } else if (isNaN(oData.year) || Number(oData.year) <= 0) {
+      displayFieldError("year", "Year must be a positive number");
+      hasErrors = true;
+    }
+    if (!oData.price) {
+      displayFieldError("price", "Price is required");
+      hasErrors = true;
+    } else if (isNaN(oData.price) || Number(oData.price) <= 0) {
+      displayFieldError("price", "Price must be a positive number");
+      hasErrors = true;
+    }
+    if (oData.imageUrl && !validateUrl(oData.imageUrl)) {
+      displayFieldError("imageUrl", "Invalid image URL format");
+      hasErrors = true;
     }
 
-    $$("#addItemError").html("");
+    if (hasErrors) {
+      return;
+    }
 
     if (!oData.imageUrl) {
       oData.imageUrl =
@@ -162,14 +195,16 @@ $$(".my-sheet").on("submit", (e) => {
       })
       .catch((error) => {
         console.error("Error adding car: ", error.code, error.message);
-        $$("#addItemError")
-          .html("An error occurred while adding the car. Please try again.")
-          .css("color", "red");
+        displayFieldError(
+          "item",
+          "An error occurred while adding the car. Please try again."
+        );
       });
   } else {
     console.log("User not authenticated");
-    $$("#addItemError")
-      .html("User not authenticated. Please sign in to add a car.")
-      .css("color", "red");
+    displayFieldError(
+      "item",
+      "User not authenticated. Please sign in to add a car."
+    );
   }
 });
