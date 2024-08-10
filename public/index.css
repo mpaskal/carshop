@@ -170,3 +170,34 @@ html {
 .item-input-with-error-message .item-input-wrap::after {
   background: red;
 }
+
+.my-sheet .toolbar {
+  background-color: transparent;
+}
+
+.my-sheet .toolbar-inner {
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+.my-sheet .toolbar .right {
+  display: flex;
+  align-items: center;
+}
+
+.my-sheet .toolbar .button {
+  margin-left: 10px;
+  padding: 5px 10px;
+}
+
+.my-sheet .toolbar .sheet-close {
+  color: #333;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  width: 200px;
+}
+
+.my-sheet .toolbar .button-active {
+  background-color: #4caf50;
+  color: white;
+}
