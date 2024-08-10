@@ -15,7 +15,6 @@ export function loadCarList(userId) {
       console.log("Number of cars:", aKeys.length);
 
       if (aKeys.length === 0) {
-        // No cars found, display welcome message
         $$("#carList").html(
           '<div class="no-cars-message">Welcome to Car Shop XL, please add your first dream car</div>'
         );
@@ -107,11 +106,43 @@ function deleteCar(carId) {
     .catch((error) => console.error("Error deleting car:", error));
 }
 
+function validateUrl(url) {
+  const pattern = new RegExp(
+    "^(https?:\\/\\/)?" + // protocol
+      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+      "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+      "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+      "(\\#[-a-z\\d_]*)?$",
+    "i"
+  ); // fragment locator
+  return !!pattern.test(url);
+}
+
 $$(".my-sheet").on("submit", (e) => {
   e.preventDefault();
   if (firebase.auth().currentUser) {
     const oData = app.form.convertToData("#addItem");
     console.log("Form Data: ", oData);
+
+    const errors = [];
+    if (!oData.item) errors.push("Car model is required");
+    if (!oData.store) errors.push("Manufacturer is required");
+    if (!oData.year) errors.push("Year is required");
+    else if (isNaN(oData.year) || Number(oData.year) <= 0)
+      errors.push("Year must be a positive number");
+    if (!oData.price) errors.push("Price is required");
+    else if (isNaN(oData.price) || Number(oData.price) <= 0)
+      errors.push("Price must be a positive number");
+    if (oData.imageUrl && !validateUrl(oData.imageUrl))
+      errors.push("Invalid image URL format");
+
+    if (errors.length > 0) {
+      $$("#addItemError").html(errors.join("<br>")).css("color", "red");
+      return;
+    }
+
+    $$("#addItemError").html("");
 
     if (!oData.imageUrl) {
       oData.imageUrl =
@@ -131,8 +162,14 @@ $$(".my-sheet").on("submit", (e) => {
       })
       .catch((error) => {
         console.error("Error adding car: ", error.code, error.message);
+        $$("#addItemError")
+          .html("An error occurred while adding the car. Please try again.")
+          .css("color", "red");
       });
   } else {
     console.log("User not authenticated");
+    $$("#addItemError")
+      .html("User not authenticated. Please sign in to add a car.")
+      .css("color", "red");
   }
 });
