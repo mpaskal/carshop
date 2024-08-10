@@ -13,6 +13,15 @@ export function loadCarList(userId) {
       console.log("Cars data received:", oItems);
       const aKeys = oItems ? Object.keys(oItems) : [];
       console.log("Number of cars:", aKeys.length);
+
+      if (aKeys.length === 0) {
+        // No cars found, display welcome message
+        $$("#carList").html(
+          '<div class="no-cars-message">Welcome to Car Shop XL, please add your first dream car</div>'
+        );
+        return;
+      }
+
       $$("#carList").html('<div class="row"></div>');
       for (let n = 0; n < aKeys.length; n++) {
         const car = oItems[aKeys[n]];

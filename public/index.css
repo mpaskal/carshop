@@ -36,6 +36,16 @@ html {
   margin: 3em;
 }
 
+.no-cars-message {
+  text-align: center;
+  font-size: 1.2em;
+  margin: 20px 0;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  color: #333;
+}
+
 .special-word {
   color: var(--f7-theme-color);
 }
@@ -48,8 +58,9 @@ html {
   margin-top: 2em;
 }
 
-#logout {
-  margin: 10px;
+#logout-btn {
+  display: flex;
+  justify-content: end;
 }
 
 .card {
@@ -61,8 +72,9 @@ html {
 }
 
 .card-image-container {
-  height: 220px; /* Adjust as needed */
+  height: 220px;
   overflow: hidden;
+  margin-top: 10px;
 }
 
 .card-image {
@@ -106,6 +118,14 @@ html {
   .col-33 {
     width: 100%;
   }
+}
+
+.fab {
+  position: relative;
+  display: flex;
+  justify-content: end;
+  margin-top: 0.5em;
+  z-index: 1000;
 }
 
 .fab a {
